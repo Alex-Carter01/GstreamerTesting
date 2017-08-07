@@ -1,0 +1,24 @@
+$gstlaunch -v $GST_DEBUG ! $VIDEOSRC ! $VIDEOFORMAT ! queue ! $VIDEOCONVERT ! $videoencoder ! $ENCVIDEOFORMAT ! queue ! mux. $AUDIOSRC ! $AUDIOFORMAT ! queue ! $audioencoder ! $ENCAUDIOFORMAT ! queue ! flvmux streamable=true name=mux ! queue ! rtmpsink location="$location"
+
+
+//Twitch example pipeline complete
+$gstlaunch -v --gst-debug=flvmux:0,rtmpsink:0 ! videotestsrc pattern=0 is-live=true ! timeoverlay ! video/x-raw, format=(string)BGRA, pixel-aspect-ratio=(fraction)1/1, interlace-mode=(string)progressive, framerate='30/1', width='1280', height='720 ! queue ! videoconvert ! x264enc bitrate=$vbitrate bframes=0 ! h264parse ! video/x-h264,level=(string)'$h264_level',profile='$h264_profile ! queue ! mux. $AUDIOSRC ! $AUDIOFORMAT ! queue ! $audioencoder ! $ENCAUDIOFORMAT ! queue ! flvmux streamable=true name=mux ! queue ! rtmpsink location="$location"
+
+// current working build **********************************************************************************
+//Twitch example simple
+
+gst-launch-1.0 -v videotestsrc is-live=true ! video/x-raw, format=(string)BGRA, pixel-aspect-ratio=(fraction)1/1, interlace-mode=(string)progressive, framerate='30/1', width='1280', height='720 ! queue ! videoconvert ! x264enc bitrate=4000 bframes=0 ! h264parse ! video/x-h264,level=(string)'4.1',profile='main' ! queue ! mux. audiotestsrc is-live=true ! queue ! lamemp3enc bitrate=128000 ! mpegaudioparse ! mpegaudioparse ! queue ! flvmux streamable=true name=mux ! queue ! rtmpsink location="rtmp://live.twitch.tv/app/live_167984197_wXZlpP8hs5IOEcuBbuzBvofxD0jxVc live=1"
+
+
+
+
+other vars to fil:
+flashver=FME/3.0%20(compatible;%20FMSc%201.0)
+//for location flashver
+
+default bitrate is 2048
+this software unnecissarily recomends 4000
+
+//after h264parse
+video/x-h264,level='4.1', profile='main' !
+//before queue
