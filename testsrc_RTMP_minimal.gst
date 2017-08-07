@@ -1,0 +1,1 @@
+gst-launch-1.0 -v videotestsrc is-live=true ! timeoverlay ! queue ! videoconvert ! x264enc ! h264parse ! queue ! flvmux streamable=true name=mux ! queue ! rtmpsink location="rtmp://live.twitch.tv/app/live_167984197_wXZlpP8hs5IOEcuBbuzBvofxD0jxVc live=1"
