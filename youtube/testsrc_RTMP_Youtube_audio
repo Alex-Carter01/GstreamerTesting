@@ -1,0 +1,1 @@
+gst-launch-1.0 -v videotestsrc is-live=true ! video/x-raw, format=(string)RGB, width=1280, height=720 ! queue ! videoconvert ! x264enc ! h264parse ! queue ! mux. audiotestsrc is-live=true ! queue ! lamemp3enc ! mpegaudioparse ! mpegaudioparse ! queue ! flvmux streamable=true name=mux ! queue ! rtmpsink location="rtmp://a.rtmp.youtube.com/live2/byqg-3qqw-yb3y-ecyp live=1"
