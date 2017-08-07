@@ -1,0 +1,1 @@
+gst-launch-1.0 -v rtspsrc location="rtsp://192.168.1.1/shotview" ! decodebin ! queue ! videoconvert ! x264enc ! h264parse ! queue ! flvmux streamable=true name=mux ! queue ! rtmpsink location="rtmp://live.twitch.tv/app/live_167984197_wXZlpP8hs5IOEcuBbuzBvofxD0jxVc live=1"
